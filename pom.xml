@@ -16,6 +16,10 @@
         <module>eureka</module>
         <module>config</module>
         <module>demo</module>
+        <module>demo2</module>
+        <module>gateway</module>
+        <module>ribbon</module>
+        <module>feign</module>
     </modules>
 
 	<parent>
