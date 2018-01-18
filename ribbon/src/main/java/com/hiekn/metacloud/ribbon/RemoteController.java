@@ -11,7 +11,7 @@ public class RemoteController {
     @Autowired
     private RemoteService remoteService;
 
-    @RequestMapping("/api/swagger.json")
+    @RequestMapping("/hi")
     public String hi(){
         return remoteService.hiService();
     }

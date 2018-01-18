@@ -12,7 +12,7 @@ public class HiController {
     @Autowired
     private SchedualServiceHi schedualServiceHi;
 
-    @RequestMapping(value = "/api/user/hi",method = RequestMethod.GET)
+    @RequestMapping(value = "/hi",method = RequestMethod.GET)
     public String sayHi(){
         return schedualServiceHi.sayHiFromClientOne();
     }
