@@ -16,4 +16,5 @@ public class HiController {
     public String sayHi(){
         return schedualServiceHi.sayHiFromClientOne();
     }
+
 }
