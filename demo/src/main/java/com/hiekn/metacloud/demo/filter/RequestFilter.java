@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Configuration
-@ConditionalOnProperty(prefix = "filter",name = {"request"},havingValue = "true")
+@ConditionalOnProperty(prefix = "filter",name = {"request"},havingValue = "true",matchIfMissing = true)
 public class RequestFilter implements Filter{
 
 	@Override
