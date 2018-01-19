@@ -10,23 +10,30 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@RestController
+@Controller
 @Path("/user")
+@Produces(MediaType.APPLICATION_JSON)
 @Api("用户模块")
 public class UserRestApi {
 
     @Autowired
     private UserService userService;
 
+    @Value("${server.port}")
+    private Integer port;
+
     @GET
     @Path("/hi")
-    public String hi(){
-        return "hi";
+    @ApiOperation("test")
+    public RestResp<Object> hi(@QueryParam("authentication") String authentication){
+        return new RestResp<>(port);
     }
 
 

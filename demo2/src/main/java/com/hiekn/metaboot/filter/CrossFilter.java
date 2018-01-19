@@ -9,7 +9,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-@ConditionalOnProperty(prefix = "filter",name = {"cross"},havingValue = "true")
+@ConditionalOnProperty(prefix = "filter",name = {"cross"},havingValue = "true",matchIfMissing = true)
 public class CrossFilter {
 
     @Bean

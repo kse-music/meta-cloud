@@ -14,7 +14,7 @@ public class RemoteService {
     @HystrixCommand(fallbackMethod = "hiError")
     public String hiService() {
 
-        return restTemplate.getForObject("http://META-BOOT/api/user/hi", String.class);
+        return restTemplate.getForObject("http://DEMO2/api/user/hi", String.class);
     }
 
     public String hiError() {
