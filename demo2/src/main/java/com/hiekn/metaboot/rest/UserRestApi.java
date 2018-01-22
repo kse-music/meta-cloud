@@ -4,6 +4,7 @@ import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.bean.result.RestData;
 import com.hiekn.metaboot.bean.result.RestResp;
 import com.hiekn.metaboot.bean.vo.Page;
+import com.hiekn.metaboot.conf.RemoteConfig;
 import com.hiekn.metaboot.service.UserService;
 import com.hiekn.metaboot.util.JsonUtils;
 import io.swagger.annotations.Api;
@@ -29,11 +30,14 @@ public class UserRestApi {
     @Value("${server.port}")
     private Integer port;
 
+    @Autowired
+    private RemoteConfig remoteConfig;
+
     @GET
     @Path("/hi")
     @ApiOperation("test")
     public RestResp<Object> hi(@QueryParam("authentication") String authentication){
-        return new RestResp<>(port);
+        return new RestResp<>(remoteConfig.getFoo()+" = "+port);
     }
 
 

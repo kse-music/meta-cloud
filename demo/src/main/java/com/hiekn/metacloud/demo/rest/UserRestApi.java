@@ -10,11 +10,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RefreshScope
 @RestController
 @RequestMapping(value = "/user",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 @Api(tags = "用户模块")
@@ -61,10 +63,10 @@ public class UserRestApi {
         return new RestResp<>(userService.login(username,password));
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     @ApiOperation("登出")
     public RestResp<Object> logout(@RequestParam String authentication){
-        userService.logout(authentication);
+//        userService.logout(authentication);
         return new RestResp<>(foo);
     }
 

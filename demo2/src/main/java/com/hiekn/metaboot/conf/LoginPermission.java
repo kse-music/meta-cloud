@@ -24,7 +24,7 @@ public class LoginPermission {
     private TokenManagerService tokenManagerService;
 
 
-    @Around("@within(org.springframework.web.bind.annotation.RestController)")
+    @Around("@within(org.springframework.stereotype.Controller)")
     public Object checkLogin(ProceedingJoinPoint pjp) throws Throwable{
         String name = pjp.getSignature().getName();
         if(!excludeMethod.contains(name)){
