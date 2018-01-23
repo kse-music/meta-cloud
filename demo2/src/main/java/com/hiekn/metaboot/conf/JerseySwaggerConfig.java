@@ -1,5 +1,6 @@
 package com.hiekn.metaboot.conf;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.google.common.collect.Sets;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
@@ -31,14 +32,14 @@ public class JerseySwaggerConfig extends ResourceConfig {
     @Bean
     public ResourceConfigCustomizer resourceRegister() {
         return config -> {
-//            packages(environment.getProperty("base.package")).registerClasses(Sets.newHashSet(MultiPartFeature.class));
+//            packages(environment.getProperty("base.package")).registerClasses(Sets.newHashSet(MultiPartFeature.class, JacksonJsonProvider.class));
             ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
             scanner.addIncludeFilter(new AnnotationTypeFilter(Path.class));
             scanner.addIncludeFilter(new AnnotationTypeFilter(Provider.class));
             Set<Class<?>> collect = scanner.findCandidateComponents(environment.getProperty("base.package")).stream()
                     .map(beanDefinition -> ClassUtils.resolveClassName(beanDefinition.getBeanClassName(), this.getClassLoader()))
                     .collect(Collectors.toSet());
-            collect.addAll(Sets.newHashSet(MultiPartFeature.class));
+            collect.addAll(Sets.newHashSet(MultiPartFeature.class, JacksonJsonProvider.class));
             registerClasses(collect);
         };
     }

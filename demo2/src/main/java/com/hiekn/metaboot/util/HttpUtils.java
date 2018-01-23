@@ -1,10 +1,10 @@
 package com.hiekn.metaboot.util;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClient;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -27,7 +27,7 @@ public final class HttpUtils {
 		ClientConfig clientConfig = new ClientConfig();
 		clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 600000)
 		.property(ClientProperties.READ_TIMEOUT, 600000)
-		.register(JacksonFeature.class);
+		.register(JacksonJsonProvider.class);
 		setHttpClient(clientConfig);
 	}
 	
