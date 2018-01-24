@@ -11,14 +11,13 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RefreshScope
 @RestController
-@RequestMapping(value = "/user",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+@RequestMapping("/user")
 @Api(tags = "用户模块")
 public class UserRestApi {
 
@@ -28,10 +27,15 @@ public class UserRestApi {
     @Value("${foo}")
     private String foo;
 
+    @PostMapping("/hi")
+    @ApiOperation("hi")
+    public RestResp<Object> hi(String authentication){
+        return new RestResp<>(authentication+" = "+foo);
+    }
+
     @GetMapping("/list/page")
     @ApiOperation("分页")
-    public RestResp<RestData<UserBean>> listByPage(String authentication,
-                                                  Page page) {
+    public RestResp<RestData<UserBean>> listByPage(String authentication, Page page) {
         return new RestResp<>(userService.listByPage(page));
     }
 
@@ -48,7 +52,7 @@ public class UserRestApi {
         return new RestResp<>(userService.list());
     }
 
-    @PostMapping(value="/add",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/add")
     @ApiOperation("新增")
     public RestResp<UserBean> add(String authentication,
                                    @RequestBody UserBean userBean) {
@@ -58,7 +62,7 @@ public class UserRestApi {
 
     @PostMapping("/login")
     @ApiOperation("登录")
-    public RestResp<UserBean> login(@ApiParam(value = "用户名/邮箱",required = true) @RequestParam String username,
+    public RestResp<UserBean> login(@ApiParam(value = "用户名/邮箱",required = true) String username,
                                     @RequestParam String password){
         return new RestResp<>(userService.login(username,password));
     }
@@ -66,8 +70,8 @@ public class UserRestApi {
     @PostMapping("/logout")
     @ApiOperation("登出")
     public RestResp<Object> logout(@RequestParam String authentication){
-//        userService.logout(authentication);
-        return new RestResp<>(foo);
+        userService.logout(authentication);
+        return new RestResp<>();
     }
 
 }
