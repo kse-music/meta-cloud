@@ -20,6 +20,7 @@
         <module>gateway</module>
         <module>ribbon</module>
         <module>feign</module>
+        <module>monitor</module>
     </modules>
 
 	<parent>
@@ -76,6 +77,10 @@
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
             </resource>
         </resources>
 		<plugins>
