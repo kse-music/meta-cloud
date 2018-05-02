@@ -27,7 +27,7 @@ public class UserRestApi {
     @Value("${foo}")
     private String foo;
 
-    @PostMapping("/hi")
+    @GetMapping("/hi")
     @ApiOperation("hi")
     public RestResp<Object> hi(String authentication){
         return new RestResp<>(authentication+" = "+foo);
