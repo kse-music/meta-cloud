@@ -20,6 +20,7 @@
         <module>gateway</module>
         <module>ribbon</module>
         <module>feign</module>
+        <module>monitor</module>
     </modules>
 
     <parent>
