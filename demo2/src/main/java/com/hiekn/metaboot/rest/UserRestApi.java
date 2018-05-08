@@ -36,7 +36,7 @@ public class UserRestApi {
     @GET
     @Path("/hi")
     @ApiOperation("test")
-    public RestResp<Object> hi(@QueryParam("authentication") String authentication){
+    public RestResp<Object> hi(){
         return new RestResp<>(remoteConfig.getFoo()+" = "+port);
     }
 
@@ -44,31 +44,28 @@ public class UserRestApi {
     @GET
     @Path("/list/page")
     @ApiOperation("分页")
-    public RestResp<RestData<UserBean>> listByPage(@ApiParam("BASE64(userId_token)")@QueryParam("authentication") String authentication,
-                                                   @BeanParam Page page) {
+    public RestResp<RestData<UserBean>> listByPage(@BeanParam Page page) {
         return new RestResp<>(userService.listByPage(page));
     }
 
     @GET
     @Path("/get")
     @ApiOperation("获取")
-    public RestResp<UserBean> get(@ApiParam("BASE64(userId_token)")@QueryParam("authentication") String authentication,
-                                  @ApiParam(required = true)@QueryParam("id") Integer id) {
+    public RestResp<UserBean> get(@ApiParam(required = true)@QueryParam("id") Integer id) {
         return new RestResp<>(userService.get(id));
     }
 
     @GET
     @Path("/list")
     @ApiOperation("列表")
-    public RestResp<List<UserBean>> list(@ApiParam("BASE64(userId_token)")@QueryParam("authentication") String authentication) {
+    public RestResp<List<UserBean>> list() {
         return new RestResp<>(userService.list());
     }
 
     @POST
     @Path("/add")
     @ApiOperation("新增")
-    public RestResp<UserBean> add(@ApiParam("BASE64(userId_token)")@QueryParam("authentication") String authentication,
-                                  @ApiParam(required = true)@FormParam("bean") String bean) {
+    public RestResp<UserBean> add(@ApiParam(required = true)@FormParam("bean") String bean) {
         UserBean userBean = JsonUtils.fromJson(bean, UserBean.class);
         userService.save(userBean);
         return new RestResp<>(userBean);
@@ -85,8 +82,7 @@ public class UserRestApi {
     @GET
     @Path("/logout")
     @ApiOperation("登出")
-    public RestResp<Object> logout(@ApiParam(required=true)@QueryParam("authentication") String authentication){
-        userService.logout(authentication);
+    public RestResp<Object> logout(){
         return new RestResp<>();
     }
 
