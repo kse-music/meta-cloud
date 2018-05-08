@@ -1,14 +1,13 @@
 package com.hiekn.metaboot.service.impl;
 
+import com.hiekn.boot.autoconfigure.base.exception.ServiceException;
+import com.hiekn.boot.autoconfigure.base.model.result.RestData;
+import com.hiekn.boot.autoconfigure.jwt.JwtToken;
 import com.hiekn.metaboot.bean.UserBean;
-import com.hiekn.metaboot.bean.result.ErrorCodes;
-import com.hiekn.metaboot.bean.result.RestData;
 import com.hiekn.metaboot.bean.vo.Page;
-import com.hiekn.metaboot.bean.vo.TokenModel;
 import com.hiekn.metaboot.bean.vo.UserLoginBean;
 import com.hiekn.metaboot.dao.UserMapper;
-import com.hiekn.metaboot.exception.ServiceException;
-import com.hiekn.metaboot.service.TokenManagerService;
+import com.hiekn.metaboot.exception.ErrorCodes;
 import com.hiekn.metaboot.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +29,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    private TokenManagerService tokenManagerService;
+    private JwtToken jwtToken;
+
 
     @Override
     public RestData<UserBean> listByPage(Page page) {
@@ -79,8 +79,8 @@ public class UserServiceImpl implements UserService {
         }
         UserLoginBean userLoginBean = new UserLoginBean();
         BeanUtils.copyProperties(user,userLoginBean);
-        TokenModel tokenModel = tokenManagerService.createToken(user.getId());
-        userLoginBean.setToken(tokenModel.getToken());
+        String token = jwtToken.createToken(user.getId());
+        userLoginBean.setToken(token);
         userLoginBean.setPassword(null);
         return userLoginBean;
     }
@@ -88,10 +88,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void logout(String authentication) {
-        TokenModel tokenModel = tokenManagerService.getToken(authentication);
-        if(Objects.nonNull(tokenModel)){
-            tokenManagerService.deleteToken(tokenModel.getUserId());
-        }
     }
 
 }

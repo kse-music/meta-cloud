@@ -1,8 +1,8 @@
 package com.hiekn.metaboot.conf;
 
-import com.hiekn.metaboot.bean.result.ErrorCodes;
-import com.hiekn.metaboot.exception.ServiceException;
-import com.hiekn.metaboot.service.TokenManagerService;
+import com.hiekn.boot.autoconfigure.base.exception.ServiceException;
+import com.hiekn.boot.autoconfigure.jwt.JwtToken;
+import com.hiekn.metaboot.exception.ErrorCodes;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -21,19 +21,17 @@ public class LoginPermission {
     private List<String> excludeMethod;
 
     @Autowired
-    private TokenManagerService tokenManagerService;
-
+    private JwtToken jwtToken;
 
     @Around("@within(org.springframework.stereotype.Controller)")
     public Object checkLogin(ProceedingJoinPoint pjp) throws Throwable{
         String name = pjp.getSignature().getName();
         if(!excludeMethod.contains(name)){
-            Object auth = pjp.getArgs()[0];
-            if(Objects.isNull(auth)){//未登录
-                throw ServiceException.newInstance(ErrorCodes.UN_LOGIN_ERROR);
-            }
-            if(!tokenManagerService.checkToken(auth.toString())){//未登录
-                throw ServiceException.newInstance(ErrorCodes.UN_LOGIN_ERROR);
+            try {
+                String token = jwtToken.getToken();
+                jwtToken.checkToken(token);
+            } catch (Exception e) {
+                throw ServiceException.newInstance(ErrorCodes.AUTHENTICATION_ERROR);
             }
         }
         return pjp.proceed();

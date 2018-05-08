@@ -1,12 +1,12 @@
 package com.hiekn.metaboot.rest;
 
+import com.hiekn.boot.autoconfigure.base.model.result.RestData;
+import com.hiekn.boot.autoconfigure.base.model.result.RestResp;
+import com.hiekn.boot.autoconfigure.base.util.JsonUtils;
 import com.hiekn.metaboot.bean.UserBean;
-import com.hiekn.metaboot.bean.result.RestData;
-import com.hiekn.metaboot.bean.result.RestResp;
 import com.hiekn.metaboot.bean.vo.Page;
 import com.hiekn.metaboot.conf.RemoteConfig;
 import com.hiekn.metaboot.service.UserService;
-import com.hiekn.metaboot.util.JsonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

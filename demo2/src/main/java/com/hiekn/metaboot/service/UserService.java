@@ -1,7 +1,7 @@
 package com.hiekn.metaboot.service;
 
+import com.hiekn.boot.autoconfigure.base.model.result.RestData;
 import com.hiekn.metaboot.bean.UserBean;
-import com.hiekn.metaboot.bean.result.RestData;
 import com.hiekn.metaboot.bean.vo.Page;
 import com.hiekn.metaboot.bean.vo.UserLoginBean;
 
