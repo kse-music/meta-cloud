@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
     public UserBean save(UserBean userBean) {
         UserBean user = getByUsername(userBean.getUsername());
         if(Objects.nonNull(user)){
-            throw ServiceException.newInstance(ErrorCodes.USER_EXIST_ERROR);
+            throw ServiceException.newInstance(ErrorCodes.EXIST_ERROR);
         }
         userMapper.insert(userBean);
         return userBean;
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
         }
         UserBean user = userMapper.selectByUsername(username);
         if(Objects.isNull(user)){
-            throw ServiceException.newInstance(ErrorCodes.USER_NOT_FOUND_ERROR);
+            throw ServiceException.newInstance(ErrorCodes.NOT_FOUND_ERROR);
         }
         if(!Objects.equals(DigestUtils.md5Hex(password), user.getPassword())){
             throw ServiceException.newInstance(ErrorCodes.USER_PWD_ERROR);
