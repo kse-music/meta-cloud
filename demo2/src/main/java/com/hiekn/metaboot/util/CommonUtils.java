@@ -1,5 +1,6 @@
 package com.hiekn.metaboot.util;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ public final class CommonUtils {
 	}
 	
 	public static Date getTime(){
-		return new Date();
+		return Date.from(Instant.now());
 	}
+
 }

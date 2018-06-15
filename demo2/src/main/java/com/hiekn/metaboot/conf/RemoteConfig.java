@@ -18,12 +18,12 @@ public class RemoteConfig {
     }
 
     public void setFoo(String foo) {
-//        String a = "";
-//        try {
-//             a = new String(foo.getBytes("iso8859-1"),"utf-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
+        String a = "";
+        try {
+             a = new String(foo.getBytes("iso8859-1"),"utf-8");
+        } catch (UnsupportedEncodingException e) {
+
+        }
         this.foo = foo;
     }
 }

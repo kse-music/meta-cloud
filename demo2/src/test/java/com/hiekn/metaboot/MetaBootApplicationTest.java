@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class MetaBootApplicationTests {
+public class MetaBootApplicationTest {
 
     @Ignore
     @Test

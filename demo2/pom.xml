@@ -18,8 +18,8 @@
             <artifactId>spring-boot-starter-jersey</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jersey2-jaxrs</artifactId>
+            <groupId>com.hiekn.boot</groupId>
+            <artifactId>mcn-swagger2-ui</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hiekn.boot</groupId>
@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

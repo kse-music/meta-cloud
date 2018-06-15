@@ -1,5 +1,7 @@
 package com.hiekn.metaboot;
 
+import com.hiekn.boot.autoconfigure.base.model.PageModel;
+import com.hiekn.boot.autoconfigure.base.model.result.RestData;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.service.UserService;
 import org.apache.commons.logging.Log;
@@ -8,16 +10,14 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.List;
-
-public class UserServiceTest extends MetaBootApplicationTests{
+public class UserServiceTest extends MetaBootApplicationTest {
 
     private static final Log logger = LogFactory.getLog(UserServiceTest.class);
 
@@ -34,33 +34,39 @@ public class UserServiceTest extends MetaBootApplicationTests{
     private TransportClient client;
 
 	@Test
-	public void test(){
-		Assert.assertSame(userService,userService);
-		Assert.assertEquals(1, 1);
-		Assert.assertTrue (2 < 3);
-		Assert.assertFalse(2 > 3);
-		Assert.assertNotNull(userService);
-		Assert.assertNull(userService);
+	public void testAssert(){
+        assertSame(userService,userService);
+        assertEquals(1, 1);
+        assertTrue (2 < 3);
+        assertFalse(2 > 3);
+        assertNotNull(userService);
+        assertNull(userService);
     }
 
     @Test
     @Sql(statements = "insert into user (id,email) values (1,'dh@gamil.com')")
     public void testSql(){
-        List<UserBean> list =  userService.list();
+        UserBean userBean = new UserBean();
+        userBean.setPageNo(1);
+        userBean.setPageSize(10);
+        RestData<UserBean> rd =  userService.listByPage(userBean);
         boolean flag =false;
-        for (UserBean o : list) {
+        for (UserBean o : rd.getRsData()) {
             if("dh@gamil.com".equals(o.getEmail())){
                 flag = true;
                 break;
             }
         }
-        Assert.assertTrue (flag);
+        assertTrue (flag);
     }
 
     @Test
     public void mongoTemplateTest(){
-        List<UserBean> list =  userService.list();
-        mongoTemplate.insert(list,"table");
+        UserBean userBean = new UserBean();
+        userBean.setPageNo(1);
+        userBean.setPageSize(10);
+        RestData<UserBean> rd =  userService.listByPage(userBean);
+        mongoTemplate.insert(rd.getRsData(),"table");
     }
 
     @Test
