@@ -1,11 +1,13 @@
 package com.hiekn.metacloud.gateway;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * 1.filterType方法的返回值为过滤器的类型，过滤器的类型决定了过滤器在哪个生命周期执行，pre表示在路由之前执行过滤器，
@@ -39,13 +41,22 @@ public class PermissFilter extends ZuulFilter {
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
-        String login = request.getParameter("login");
-        if (login == null) {
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            ctx.addZuulResponseHeader("content-type","text/html;charset=utf-8");
-            ctx.setResponseBody("非法访问");
+
+        request.getParameterMap();  // 一定要get一下,下面这行代码才能取到值.
+        Map<String, List<String>> requestQueryParams = ctx.getRequestQueryParams();
+        if (Objects.isNull(requestQueryParams)) {
+            requestQueryParams = Maps.newHashMap();
         }
+        requestQueryParams.put("userId", Lists.newArrayList("12312"));
+        ctx.setRequestQueryParams(requestQueryParams);
+
+//        String login = request.getParameter("login");
+//        if (login == null) {
+//            ctx.setSendZuulResponse(false);
+//            ctx.setResponseStatusCode(401);
+//            ctx.addZuulResponseHeader("content-type","text/html;charset=utf-8");
+//            ctx.setResponseBody("非法访问");
+//        }
         return null;
     }
 }
