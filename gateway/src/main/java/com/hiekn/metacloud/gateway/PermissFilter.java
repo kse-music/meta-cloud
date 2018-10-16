@@ -4,9 +4,17 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.netflix.zuul.http.HttpServletRequestWrapper;
+import com.netflix.zuul.http.ServletInputStreamWrapper;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StreamUtils;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -50,13 +58,56 @@ public class PermissFilter extends ZuulFilter {
         requestQueryParams.put("userId", Lists.newArrayList("12312"));
         ctx.setRequestQueryParams(requestQueryParams);
 
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        for (String s : requestQueryParams.keySet()) {
+            if(parameterMap.containsKey(s)){
+                parameterMap.remove(s);
+            }
+        }
+        String body = null;
+        try {
+            InputStream in = ctx.getRequest().getInputStream();
+            body = StreamUtils.copyToString(in, Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(body);
+        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+            String key = entry.getKey();
+            String[] value = entry.getValue();
+            if(body.indexOf(key+"=") != -1){
+                body = StringUtils.replace(body, key + "=" + value[0], key + "=" + trans(value[0]));
+            }
+        }
+        final byte[] reqBodyBytes = body.getBytes();
+        ctx.setRequest(new HttpServletRequestWrapper(request) {
+            @Override
+            public ServletInputStream getInputStream() throws IOException {
+                return new ServletInputStreamWrapper(reqBodyBytes);
+            }
+
+            @Override
+            public int getContentLength() {
+                return reqBodyBytes.length;
+            }
+
+            @Override
+            public long getContentLengthLong() {
+                return reqBodyBytes.length;
+            }
+        });
+
 //        String login = request.getParameter("login");
 //        if (login == null) {
 //            ctx.setSendZuulResponse(false);
 //            ctx.setResponseStatusCode(401);
 //            ctx.addZuulResponseHeader("content-type","text/html;charset=utf-8");
-//            ctx.setResponseBody("非法访问");
+//            ctx.setResponseBody("<h1><a href='http://www.baidu.com'>非法访问</a></h1>");
 //        }
         return null;
+    }
+
+    private String trans(String s) {
+        return "new_"+s;
     }
 }
