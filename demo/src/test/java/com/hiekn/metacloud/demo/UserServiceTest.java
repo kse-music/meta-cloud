@@ -4,10 +4,6 @@ import com.hiekn.metacloud.demo.bean.UserBean;
 import com.hiekn.metacloud.demo.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +25,6 @@ public class UserServiceTest extends DemoApplicationTests{
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
-    @Autowired
-    private TransportClient client;
 
 	@Test
 	public void test(){
@@ -68,14 +61,5 @@ public class UserServiceTest extends DemoApplicationTests{
         stringRedisTemplate.opsForValue().set("key","value");
     }
 
-    @Test
-    public void elasticsearchTest(){
-        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("x").setTypes("y");
-        SearchResponse response = searchRequestBuilder
-                .setQuery(QueryBuilders.termQuery("query", 1))
-                .get();
-        response.getHits().forEach(hit -> logger.info(hit.getSourceAsMap()));
-
-    }
 
 }

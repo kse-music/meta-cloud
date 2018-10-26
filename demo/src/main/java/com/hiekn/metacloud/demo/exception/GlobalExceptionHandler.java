@@ -24,7 +24,7 @@ public class GlobalExceptionHandler  {
 
     private static final Log logger = LogFactory.getLog(GlobalExceptionHandler.class);
 
-    @Value("${base.package}")
+    @Value("${jersey.swagger.base-package}")
     private String basePackage;
 
     @ExceptionHandler(Exception.class)

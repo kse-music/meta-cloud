@@ -1,21 +1,17 @@
 package com.hiekn.metaboot;
 
-import com.hiekn.boot.autoconfigure.base.model.PageModel;
 import com.hiekn.boot.autoconfigure.base.model.result.RestData;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.index.query.QueryBuilders;
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.jdbc.Sql;
+
+import static org.junit.Assert.*;
 
 public class UserServiceTest extends MetaBootApplicationTest {
 
@@ -30,8 +26,6 @@ public class UserServiceTest extends MetaBootApplicationTest {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    @Autowired
-    private TransportClient client;
 
 	@Test
 	public void testAssert(){
@@ -74,14 +68,5 @@ public class UserServiceTest extends MetaBootApplicationTest {
         stringRedisTemplate.opsForValue().set("key","value");
     }
 
-    @Test
-    public void elasticsearchTest(){
-        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("x").setTypes("y");
-        SearchResponse response = searchRequestBuilder
-                .setQuery(QueryBuilders.termQuery("query", 1))
-                .get();
-        response.getHits().forEach(hit -> logger.info(hit.getSourceAsMap()));
-
-    }
 
 }

@@ -8,9 +8,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @EnableEurekaClient
 @SpringBootApplication
 @MapperScan("com.hiekn.metacloud.demo.dao")
-public class DemoApplication {
+public class SpringMvcApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(SpringMvcApplication.class, args);
 	}
 }
