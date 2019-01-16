@@ -1,11 +1,11 @@
 package com.hiekn.metaboot.rest;
 
 
-import com.hiekn.boot.autoconfigure.base.model.PageModel;
 import com.hiekn.boot.autoconfigure.base.model.result.RestData;
 import com.hiekn.boot.autoconfigure.base.model.result.RestResp;
-import com.hiekn.boot.autoconfigure.base.util.BeanValidator;
 import com.hiekn.boot.autoconfigure.base.util.JsonUtils;
+import com.hiekn.boot.autoconfigure.web.model.PageModel;
+import com.hiekn.boot.autoconfigure.web.util.BeanValidator;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.conf.RemoteConfig;
 import com.hiekn.metaboot.service.UserService;

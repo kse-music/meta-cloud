@@ -1,6 +1,6 @@
 package com.hiekn.metaboot.validator;
 
-import com.hiekn.boot.autoconfigure.base.util.BeanUtils;
+import com.hiekn.boot.autoconfigure.web.util.SpringBeanUtils;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.service.UserService;
 
@@ -17,7 +17,7 @@ public class UniqueValidatorForMobile implements ConstraintValidator<UniqueMobil
         if (value == null) {
             return true;
         }
-        UserService userService = BeanUtils.getBean(UserService.class);
+        UserService userService = SpringBeanUtils.getBean(UserService.class);
         UserBean userBean = new UserBean();
         userBean.setMobile(value);
         List<UserBean> list = userService.selectByCondition(userBean);

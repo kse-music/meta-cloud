@@ -3,8 +3,6 @@ package com.hiekn.metaboot;
 import com.hiekn.boot.autoconfigure.base.model.result.RestData;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.service.UserService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,8 +12,6 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.junit.Assert.*;
 
 public class UserServiceTest extends MetaBootApplicationTest {
-
-    private static final Log logger = LogFactory.getLog(UserServiceTest.class);
 
     @Autowired
 	private UserService userService;

@@ -75,5 +75,39 @@
         </dependency>
     </dependencies>
 
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>com.hiekn.generator</groupId>
+                <artifactId>mcn-maven-plugin</artifactId>
+                <configuration>
+                    <propConfig>
+                        <property>
+                            <name>db.driver</name>
+                            <value>com.mysql.jdbc.Driver</value>
+                        </property>
+                        <property>
+                            <name>db.url</name>
+                            <value>jdbc:mysql://192.168.1.159:3306/test?characterEncoding=utf8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;useSSL=false</value>
+                        </property>
+                        <property>
+                            <name>db.user</name>
+                            <value>root</value>
+                        </property>
+                        <property>
+                            <name>db.password</name>
+                            <value>root@hiekn</value>
+                        </property>
+                        <property>
+                            <name>basePkg</name>
+                            <value>com.hiekn.test</value>
+                        </property>
+                    </propConfig>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
