@@ -1,6 +1,7 @@
 package com.hiekn.metaboot.exception;
 
-import com.hiekn.boot.autoconfigure.base.exception.ExceptionKeys;
+import cn.hiboot.mcn.core.exception.ExceptionKeys;
+
 /*
     3xxxx:通用错误码定义
     5xxxx:业务相关错误码定义

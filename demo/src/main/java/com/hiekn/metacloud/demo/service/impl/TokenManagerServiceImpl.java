@@ -2,7 +2,6 @@ package com.hiekn.metacloud.demo.service.impl;
 
 import com.hiekn.metacloud.common.util.CommonUtils;
 import com.hiekn.metacloud.demo.bean.vo.TokenModel;
-import com.hiekn.metacloud.demo.conf.Constants;
 import com.hiekn.metacloud.demo.service.TokenManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,7 +22,7 @@ public class TokenManagerServiceImpl implements TokenManagerService {
         String token = CommonUtils.getRandomUUID();
         TokenModel model = new TokenModel (userId, token);
         // 存储到 redis 并设置过期时间
-        redisTemplate.boundValueOps (userId).set (token, Constants.tokenExpiresTimeDay, TimeUnit.DAYS);
+        redisTemplate.boundValueOps (userId).set (token, 11, TimeUnit.DAYS);
         return model;
     }
 
@@ -54,7 +53,7 @@ public class TokenManagerServiceImpl implements TokenManagerService {
             return false;
         }
         // 如果验证成功，说明此用户进行了一次有效操作，延长 token 的过期时间
-        redisTemplate.boundValueOps (model.getUserId ()).expire (Constants.tokenExpiresTimeDay, TimeUnit.DAYS);
+        redisTemplate.boundValueOps (model.getUserId ()).expire (11, TimeUnit.DAYS);
         return true;
     }
 

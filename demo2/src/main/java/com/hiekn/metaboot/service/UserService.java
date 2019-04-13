@@ -1,6 +1,6 @@
 package com.hiekn.metaboot.service;
 
-import com.hiekn.boot.autoconfigure.base.service.BaseService;
+import cn.hiboot.mcn.core.service.BaseService;
 import com.hiekn.metaboot.bean.UserBean;
 
 public interface UserService extends BaseService<UserBean, String> {

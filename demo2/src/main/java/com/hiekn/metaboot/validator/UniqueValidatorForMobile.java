@@ -1,6 +1,6 @@
 package com.hiekn.metaboot.validator;
 
-import com.hiekn.boot.autoconfigure.web.util.SpringBeanUtils;
+import cn.hiboot.mcn.autoconfigure.web.util.SpringBeanUtils;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.service.UserService;
 

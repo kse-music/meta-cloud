@@ -5,7 +5,6 @@
 
 	<groupId>com.hiekn.metacloud</groupId>
 	<artifactId>demo</artifactId>
-	<packaging>jar</packaging>
 
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
@@ -70,12 +69,10 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.8.0</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.8.0</version>
         </dependency>
 
 

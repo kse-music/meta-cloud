@@ -1,11 +1,9 @@
 package com.hiekn.metaboot.rest;
 
 
-import com.hiekn.boot.autoconfigure.base.model.result.RestData;
-import com.hiekn.boot.autoconfigure.base.model.result.RestResp;
-import com.hiekn.boot.autoconfigure.base.util.JsonUtils;
-import com.hiekn.boot.autoconfigure.web.model.PageModel;
-import com.hiekn.boot.autoconfigure.web.util.BeanValidator;
+import cn.hiboot.mcn.autoconfigure.web.util.BeanValidator;
+import cn.hiboot.mcn.core.model.result.RestResp;
+import com.google.gson.Gson;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.conf.RemoteConfig;
 import com.hiekn.metaboot.service.UserService;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -24,6 +21,9 @@ import javax.ws.rs.core.MediaType;
 @Api("用户模块")
 @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "string", name = "Authorization",required = true)})
 public class UserRestApi {
+
+    @Autowired
+    private Gson gson;
 
     @Autowired
     private UserService userService;
@@ -39,18 +39,6 @@ public class UserRestApi {
     @ApiOperation("test config")
     public RestResp hi(){
         return new RestResp<>(remoteConfig.getFoo()+" = "+port);
-    }
-
-    @GET
-    @Path("/list/page")
-    @ApiOperation("分页")
-    public RestResp<RestData<UserBean>> listByPage(@Valid @BeanParam PageModel pageModel,
-                                                   @QueryParam("mobile")String mobile) {
-        UserBean userBean = new UserBean();
-        userBean.setPageNo(pageModel.getPageNo());
-        userBean.setPageSize(pageModel.getPageSize());
-        userBean.setMobile(mobile);
-        return new RestResp<>(userService.listByPage(userBean));
     }
 
     @GET
@@ -72,7 +60,7 @@ public class UserRestApi {
     @Path("/add")
     @ApiOperation("新增")
     public RestResp<UserBean> add(@ApiParam(required = true)@FormParam("bean") String bean) {
-        UserBean userBean = JsonUtils.fromJson(bean, UserBean.class);
+        UserBean userBean = gson.fromJson(bean, UserBean.class);
         BeanValidator.validate(userBean);
         userService.save(userBean);
         return new RestResp<>(userBean);
@@ -84,7 +72,7 @@ public class UserRestApi {
     @ApiOperation("修改")
     public RestResp update(@ApiParam(required = true)@QueryParam("id") String id,
                            @ApiParam(required = true)@FormParam("bean") String bean) {
-        UserBean userBean = JsonUtils.fromJson(bean, UserBean.class);
+        UserBean userBean = gson.fromJson(bean, UserBean.class);
         userBean.setId(id);
         userService.updateByPrimaryKeySelective(userBean);
         return new RestResp<>();

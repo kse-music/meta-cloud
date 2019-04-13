@@ -20,7 +20,7 @@ public class Demo2FallBackProvider implements FallbackProvider {
     }
 
     @Override
-    public ClientHttpResponse fallbackResponse() {
+    public ClientHttpResponse fallbackResponse(String route, Throwable cause) {
         return new ClientHttpResponse() {
             @Override
             public HttpStatus getStatusCode() throws IOException {
@@ -54,10 +54,5 @@ public class Demo2FallBackProvider implements FallbackProvider {
                 return headers;
             }
         };
-    }
-
-    @Override
-    public ClientHttpResponse fallbackResponse(Throwable cause) {
-        return fallbackResponse();
     }
 }

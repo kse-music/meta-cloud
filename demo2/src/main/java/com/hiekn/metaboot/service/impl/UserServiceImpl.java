@@ -1,8 +1,8 @@
 package com.hiekn.metaboot.service.impl;
 
-import com.hiekn.boot.autoconfigure.base.exception.ServiceException;
-import com.hiekn.boot.autoconfigure.base.service.BaseServiceImpl;
-import com.hiekn.boot.autoconfigure.jwt.JwtToken;
+import cn.hiboot.mcn.autoconfigure.jwt.JwtToken;
+import cn.hiboot.mcn.core.exception.ServiceException;
+import cn.hiboot.mcn.core.service.BaseServiceImpl;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.dao.UserMapper;
 import com.hiekn.metaboot.exception.ErrorCodes;

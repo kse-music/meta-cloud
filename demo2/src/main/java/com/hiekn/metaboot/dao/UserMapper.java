@@ -1,6 +1,6 @@
 package com.hiekn.metaboot.dao;
 
-import com.hiekn.boot.autoconfigure.base.mapper.BaseMapper;
+import cn.hiboot.mcn.core.mapper.BaseMapper;
 import com.hiekn.metaboot.bean.UserBean;
 import org.springframework.stereotype.Repository;
 
