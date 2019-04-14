@@ -1,13 +1,12 @@
 package com.hiekn.metacloud.demo.service.impl;
 
+import cn.hiboot.mcn.core.exception.ServiceException;
+import cn.hiboot.mcn.core.service.BaseServiceImpl;
 import com.hiekn.metacloud.demo.bean.UserBean;
-import com.hiekn.metacloud.demo.bean.result.ErrorCodes;
-import com.hiekn.metacloud.demo.bean.result.RestData;
-import com.hiekn.metacloud.demo.bean.vo.Page;
 import com.hiekn.metacloud.demo.bean.vo.TokenModel;
 import com.hiekn.metacloud.demo.bean.vo.UserLoginBean;
 import com.hiekn.metacloud.demo.dao.UserMapper;
-import com.hiekn.metacloud.demo.exception.ServiceException;
+import com.hiekn.metacloud.demo.exception.ErrorCodes;
 import com.hiekn.metacloud.demo.service.TokenManagerService;
 import com.hiekn.metacloud.demo.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -18,11 +17,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<UserBean,Integer> implements UserService {
 
     private static final Log logger = LogFactory.getLog(UserServiceImpl.class);
 
@@ -33,25 +31,11 @@ public class UserServiceImpl implements UserService {
     private TokenManagerService tokenManagerService;
 
     @Override
-    public RestData<UserBean> listByPage(Page page) {
-        List<UserBean> userList = userMapper.getUserList(page);
-        logger.info("请使用logger替代System.out.println！！！");
-        return new RestData<>(userList,userMapper.count());
-    }
-
-    @Override
-    public UserBean get(Integer id) {
-        return userMapper.selectById(id);
-    }
-
-    @Override
     public UserBean getByUsername(String username) {
-        return userMapper.selectByUsername(username);
-    }
-
-    @Override
-    public List<UserBean> list() {
-        return userMapper.getUserList(null);
+        logger.info("请使用logger替代System.out.println！！！");
+        UserBean userBean = new UserBean();
+        userBean.setUsername(username);
+        return userMapper.selectByCondition(userBean).get(0);
     }
 
     @Override
@@ -70,7 +54,7 @@ public class UserServiceImpl implements UserService {
         if(StringUtils.isBlank(username) || StringUtils.isBlank(password)){
             throw ServiceException.newInstance(ErrorCodes.PARAM_PARSE_ERROR);
         }
-        UserBean user = userMapper.selectByUsername(username);
+        UserBean user = getByUsername(username);
         if(Objects.isNull(user)){
             throw ServiceException.newInstance(ErrorCodes.USER_NOT_FOUND_ERROR);
         }

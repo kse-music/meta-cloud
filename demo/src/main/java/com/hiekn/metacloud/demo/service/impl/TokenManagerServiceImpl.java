@@ -1,6 +1,6 @@
 package com.hiekn.metacloud.demo.service.impl;
 
-import com.hiekn.metacloud.common.util.CommonUtils;
+import cn.hiboot.mcn.core.util.McnUtils;
 import com.hiekn.metacloud.demo.bean.vo.TokenModel;
 import com.hiekn.metacloud.demo.service.TokenManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class TokenManagerServiceImpl implements TokenManagerService {
     @Override
     public TokenModel createToken (long userId) {
         // 使用 uuid 作为源 token
-        String token = CommonUtils.getRandomUUID();
+        String token = McnUtils.simpleUUID();
         TokenModel model = new TokenModel (userId, token);
         // 存储到 redis 并设置过期时间
         redisTemplate.boundValueOps (userId).set (token, 11, TimeUnit.DAYS);

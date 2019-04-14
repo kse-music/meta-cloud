@@ -39,7 +39,7 @@ public class UserServiceTest extends DemoApplicationTests{
     @Test
     @Sql(statements = "insert into user (id,email) values (1,'dh@gamil.com')")
     public void testSql(){
-        List<UserBean> list =  userService.list();
+        List<UserBean> list =  userService.selectByCondition(null);
         boolean flag =false;
         for (UserBean o : list) {
             if("dh@gamil.com".equals(o.getEmail())){
@@ -52,7 +52,7 @@ public class UserServiceTest extends DemoApplicationTests{
 
     @Test
     public void mongoTemplateTest(){
-        List<UserBean> list =  userService.list();
+        List<UserBean> list =  userService.selectByCondition(null);
         mongoTemplate.insert(list,"table");
     }
 

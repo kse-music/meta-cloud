@@ -1,17 +1,10 @@
 package com.hiekn.metacloud.demo.dao;
 
+import cn.hiboot.mcn.core.mapper.BaseMapper;
 import com.hiekn.metacloud.demo.bean.UserBean;
-import com.hiekn.metacloud.demo.bean.vo.Page;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<UserBean,Integer> {
 
-    List<UserBean> getUserList(Page page);
-    int count();
-    UserBean selectById(Integer id);
-    void insert(UserBean userBean);
-    UserBean selectByUsername(String username);
 }
