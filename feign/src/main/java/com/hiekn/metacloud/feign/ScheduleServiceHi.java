@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "demo2",fallback = ScheduleServiceHi.ScheduleServiceHiHystrix.class)
 public interface ScheduleServiceHi {
 
-    @RequestMapping(value = "/user/test",method = RequestMethod.GET)
+    @RequestMapping(value = "/user/hi",method = RequestMethod.GET)
     RestResp sayHiFromClientOne();
 
     @Component

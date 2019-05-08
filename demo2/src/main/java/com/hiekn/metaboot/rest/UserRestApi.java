@@ -35,8 +35,8 @@ public class UserRestApi {
     private RemoteConfig remoteConfig;
 
     @GET
-    @Path("/test")
-    @ApiOperation("test config")
+    @Path("hi")
+    @ApiOperation("hi")
     public RestResp hi(){
         return new RestResp<>(remoteConfig.getFoo()+" = "+port);
     }
