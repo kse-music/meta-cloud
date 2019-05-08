@@ -1,5 +1,6 @@
 package com.hiekn.metacloud.ribbon;
 
+import cn.hiboot.mcn.core.model.result.RestResp;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,14 @@ public class RemoteService {
     private RestTemplate restTemplate;
 
     @HystrixCommand(fallbackMethod = "hiError")
-    public String hiService() {
+    public RestResp hiService() {
 
-        return restTemplate.getForObject("http://DEMO2/api/user/hi", String.class);
+        return restTemplate.getForObject("http://DEMO2/user/test", RestResp.class);
     }
 
-    public String hiError() {
-        return "hi,sorry,error!";
+    public RestResp hiError() {
+        RestResp restResp = new RestResp("hi,sorry,error!");
+        restResp.setActionStatus(RestResp.ActionStatusMethod.FAIL.toString());
+        return restResp;
     }
 }

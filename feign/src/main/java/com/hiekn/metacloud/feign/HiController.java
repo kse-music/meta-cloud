@@ -1,20 +1,19 @@
 package com.hiekn.metacloud.feign;
 
+import cn.hiboot.mcn.core.model.result.RestResp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HiController {
 
     @Autowired
-    private SchedualServiceHi schedualServiceHi;
+    private ScheduleServiceHi scheduleServiceHi;
 
-    @RequestMapping(value = "/hi",method = RequestMethod.GET)
-    public String sayHi(){
-        return schedualServiceHi.sayHiFromClientOne();
+    @GetMapping("/hi")
+    public RestResp sayHi(){
+        return scheduleServiceHi.sayHiFromClientOne();
     }
 
 }

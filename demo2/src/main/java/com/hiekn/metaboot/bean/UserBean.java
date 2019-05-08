@@ -1,7 +1,6 @@
 package com.hiekn.metaboot.bean;
 
 import cn.hiboot.mcn.core.model.BaseModel;
-import com.hiekn.metaboot.validator.UniqueMobile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +10,6 @@ public class UserBean extends BaseModel {
     private String id;
 
     @Pattern(regexp="^\\d{11}$",message = "请填写正确的手机号")
-    @UniqueMobile
     private String mobile;
 
     private String nickname;
