@@ -9,7 +9,6 @@ import com.hiekn.metacloud.demo.dao.UserMapper;
 import com.hiekn.metacloud.demo.exception.ErrorCodes;
 import com.hiekn.metacloud.demo.service.TokenManagerService;
 import com.hiekn.metacloud.demo.service.UserService;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,9 +57,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserBean,Integer> implement
         if(Objects.isNull(user)){
             throw ServiceException.newInstance(ErrorCodes.USER_NOT_FOUND_ERROR);
         }
-        if(!Objects.equals(DigestUtils.md5Hex(password), user.getPassword())){
-            throw ServiceException.newInstance(ErrorCodes.USER_PWD_ERROR);
-        }
+//        if(!Objects.equals(DigestUtils.md5Hex(password), user.getPassword())){
+//            throw ServiceException.newInstance(ErrorCodes.USER_PWD_ERROR);
+//        }
         UserLoginBean userLoginBean = new UserLoginBean();
         BeanUtils.copyProperties(user,userLoginBean);
         TokenModel tokenModel = tokenManagerService.createToken(user.getId());

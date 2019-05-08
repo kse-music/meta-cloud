@@ -35,42 +35,32 @@ public class DingTalkNotifier extends AbstractStatusChangeNotifier {
 
     public DingTalkNotifier(InstanceRepository repository) {
         super(repository);
-        this.message = this.parser.parseExpression("**#{application.name}** 已经从 #{from.status} 变成 **#{to.status}**", ParserContext.TEMPLATE_EXPRESSION);
+        this.message = this.parser.parseExpression(DEFAULT_MESSAGE, ParserContext.TEMPLATE_EXPRESSION);
     }
 
     @Override
     protected Mono<Void> doNotify(InstanceEvent event, Instance instance) {
-        if(event instanceof InstanceStatusChangedEvent){//只关心状态变化
-            InstanceStatusChangedEvent changedEvent = (InstanceStatusChangedEvent) event;
-            StringBuilder sb = new StringBuilder("\n >**");
-//            sb.append(changedEvent.getApplication().getName()).append("** 服务已经");
-//            if(changedEvent.getTo().isOffline()){
-//                sb.append("跪了,请相关人员及时去救火 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
-//            }else if(changedEvent.getTo().isUp()){
-//                sb.append("又重新复活了 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
-//            }
-            if(this.atMobiles != null){
-                sb.append(this.getAtMobilesString(this.atMobiles));
-            }
-            this.restTemplate.postForEntity(this.webhookToken, this.createMessage(sb.toString()), Void.class);
-        }
         return Mono.fromRunnable(() -> restTemplate.postForEntity(webhookToken, createMessage(event, instance),Void.class));
     }
 
     private HttpEntity<Map<String, Object>> createMessage(InstanceEvent event,Instance instance) {
-        Map<String, Object> messageJson = new HashMap<>();
-        HashMap<String, String> params = new HashMap<>();
-        params.put("text", this.getMessage(event, instance));
-        params.put("title", this.title);
-        messageJson.put("atMobiles", this.atMobiles);
-        messageJson.put("msgtype", this.msgtype);
-        messageJson.put(this.msgtype, params);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        return new HttpEntity<>(messageJson, headers);
-    }
-
-    private HttpEntity<Map<String, Object>> createMessage(String msg) {
+        String msg = "";
+        if(event instanceof InstanceStatusChangedEvent){//只关心状态变化
+            InstanceStatusChangedEvent changedEvent = (InstanceStatusChangedEvent) event;
+            StringBuilder sb = new StringBuilder("\n >**");
+            sb.append(instance.getRegistration().getName()).append("** 服务已经");
+            if(changedEvent.getStatusInfo().isOffline()){
+                sb.append("Offline,请相关人员及时去救火 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
+            }else if(changedEvent.getStatusInfo().isDown()){
+                sb.append("Down,请相关人员及时去救火 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
+            }else if(changedEvent.getStatusInfo().isUp()){
+                sb.append("又重新复活了 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
+            }
+            if(this.atMobiles != null){
+                sb.append(this.getAtMobilesString(this.atMobiles));
+            }
+            msg = sb.toString();
+        }
         Map<String, Object> messageJson = new HashMap<>();
         Map<String, String> params = new HashMap<>();
         Map<String, Object> at = new HashMap<>();
