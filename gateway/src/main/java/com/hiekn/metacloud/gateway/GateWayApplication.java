@@ -43,8 +43,8 @@ public class GateWayApplication {
         String httpUri = "http://localhost:8889/user/hi";
         return builder.routes()
                 .route(p -> p
-                        .path("/user/hi")
-                        .filters(f -> f.addRequestHeader("Hello", "World"))
+                        .path("/demo/user/hi")
+                        .filters(f -> f.addRequestHeader("Hello", "World").filter(new MyGatewayFilter()))
                         .uri(httpUri))
                 .route(p -> p
                         .host("*.hystrix.com")
