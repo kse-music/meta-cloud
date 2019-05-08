@@ -21,6 +21,23 @@ public class GateWayApplication {
         SpringApplication.run(GateWayApplication.class, args);
     }
 
+
+    @Bean
+    public HostAddressKeyResolver hostAddressKeyResolver() {
+        return new HostAddressKeyResolver();
+    }
+
+//    @Bean
+//    public UriKeyResolver uriKeyResolver() {
+//        return new UriKeyResolver();
+//    }
+//
+//    @Bean
+//    public KeyResolver userKeyResolver() {
+//        return exchange -> Mono.just(exchange.getRequest().getQueryParams().getFirst("user"));
+//    }
+
+
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
         String httpUri = "http://localhost:8889/user/hi";
