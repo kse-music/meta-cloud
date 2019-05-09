@@ -1,6 +1,7 @@
 package com.hiekn.metacloud.demo.rest;
 
 import cn.hiboot.mcn.core.model.result.RestResp;
+import com.google.common.collect.Maps;
 import com.hiekn.metacloud.demo.bean.UserBean;
 import com.hiekn.metacloud.demo.service.UserService;
 import io.swagger.annotations.Api;
@@ -10,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.Map;
 
 @RefreshScope
 @RestController
@@ -23,10 +28,20 @@ public class UserRestApi {
     @Value("${foo}")
     private String foo;
 
+    @Autowired
+    private HttpServletRequest request;
+
     @GetMapping("/hi")
     @ApiOperation("hi")
-    public RestResp<Object> hi(String authentication){
-        return new RestResp<>(authentication+" = "+foo);
+    public RestResp<Object> hi(){
+        Enumeration<String> headerNames = request.getHeaderNames();
+        Map<String,String> data = Maps.newHashMap();
+        while (headerNames.hasMoreElements()){
+            String s = headerNames.nextElement();
+            data.put(s,request.getHeader(s));
+        }
+        data.put("remoteConfig",foo);
+        return new RestResp<>(data);
     }
 
     @GetMapping("/get")
