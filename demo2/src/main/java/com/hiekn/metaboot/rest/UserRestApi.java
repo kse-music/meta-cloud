@@ -3,6 +3,7 @@ package com.hiekn.metaboot.rest;
 
 import cn.hiboot.mcn.autoconfigure.web.util.BeanValidator;
 import cn.hiboot.mcn.core.model.result.RestResp;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.hiekn.metaboot.bean.UserBean;
 import com.hiekn.metaboot.conf.RemoteConfig;
@@ -12,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Enumeration;
+import java.util.Map;
 
 @Controller
 @Path("/user")
@@ -27,17 +31,24 @@ public class UserRestApi {
     @Autowired
     private UserService userService;
 
-    @Value("${server.port}")
-    private Integer port;
-
     @Autowired
     private RemoteConfig remoteConfig;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @GET
     @Path("hi")
     @ApiOperation("hi")
     public RestResp hi(){
-        return new RestResp<>(remoteConfig.getFoo()+" = "+port);
+        Enumeration<String> headerNames = request.getHeaderNames();
+        Map<String,String> data = Maps.newHashMap();
+        while (headerNames.hasMoreElements()){
+            String s = headerNames.nextElement();
+            data.put(s,request.getHeader(s));
+        }
+        data.put("remoteConfig",remoteConfig.getFoo());
+        return new RestResp<>(data);
     }
 
     @GET

@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 public class MyGatewayFilter implements GatewayFilter {
 
-    private static final Logger log = LoggerFactory.getLogger(MyGatewayFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyGatewayFilter.class);
     private static final String REQUEST_TIME_BEGIN = "requestTimeBegin";
 
     @Override
@@ -19,7 +19,7 @@ public class MyGatewayFilter implements GatewayFilter {
                 Mono.fromRunnable(() -> {
                     Long startTime = exchange.getAttribute(REQUEST_TIME_BEGIN);
                     if (startTime != null) {
-                        log.info(exchange.getRequest().getURI().getRawPath() + ": " + (System.currentTimeMillis() - startTime) + "ms");
+                        logger.info(exchange.getRequest().getURI().getRawPath() + ": " + (System.currentTimeMillis() - startTime) + "ms");
                     }
                 })
         );

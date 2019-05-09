@@ -37,14 +37,13 @@ public class GateWayApplication {
 //        return exchange -> Mono.just(exchange.getRequest().getQueryParams().getFirst("user"));
 //    }
 
-
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-        String httpUri = "http://localhost:8889/user/hi";
+        String httpUri = "http://localhost:8888";
         return builder.routes()
                 .route(p -> p
-                        .path("/demo/user/hi")
-                        .filters(f -> f.addRequestHeader("Hello", "World").filter(new MyGatewayFilter()))
+                        .path("/demo2/user/hi")
+                        .filters(f -> f.addRequestHeader("Hello", "World").filter(new MyGatewayFilter()).stripPrefix(1))
                         .uri(httpUri))
                 .route(p -> p
                         .host("*.hystrix.com")
