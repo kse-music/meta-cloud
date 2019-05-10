@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient(value = "demo2",fallback = ScheduleServiceHi.ScheduleServiceHiHystrix.class)
-public interface ScheduleServiceHi {
+@FeignClient(value = "demo2",fallback = FeignRemoteService.FeignRemoteServiceError.class)
+public interface FeignRemoteService {
 
     @RequestMapping(value = "/user/hi",method = RequestMethod.GET)
-    RestResp sayHiFromClientOne();
+    RestResp hiFeign();
 
     @Component
-    class ScheduleServiceHiHystrix implements ScheduleServiceHi {
+    class FeignRemoteServiceError implements FeignRemoteService {
 
         @Override
-        public RestResp sayHiFromClientOne() {
+        public RestResp hiFeign() {
             return new RestResp<>(ErrorMsg.REMOTE_SERVICE_ERROR,ErrorMsg.getErrorMsg(ErrorMsg.REMOTE_SERVICE_ERROR));
         }
 

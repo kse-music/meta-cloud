@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class RemoteController {
 
     @Autowired
-    private RemoteService remoteService;
+    private RibbonRemoteService remoteService;
 
     @RequestMapping("/hi")
     public RestResp hi(){
-        return remoteService.hiService();
+        return remoteService.hiRibbon();
     }
 
 

@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient(value = "demo2",fallback = RemoteService.RemoteServiceHiHystrix.class)
+@FeignClient(value = "demo2",fallback = RemoteService.RemoteServiceHystrix.class)
 public interface RemoteService {
 
     @RequestMapping(value = "/user/hi",method = RequestMethod.GET)
     RestResp hi();
 
     @Component
-    class RemoteServiceHiHystrix implements RemoteService {
+    class RemoteServiceHystrix implements RemoteService {
 
         @Override
         public RestResp hi() {

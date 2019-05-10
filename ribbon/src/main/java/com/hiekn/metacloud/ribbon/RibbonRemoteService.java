@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class RemoteService {
+public class RibbonRemoteService {
 
     @Autowired
     private RestTemplate restTemplate;
 
     @HystrixCommand(fallbackMethod = "hiError")
-    public RestResp hiService() {
+    public RestResp hiRibbon() {
 
         return restTemplate.getForObject("http://DEMO2/user/hi", RestResp.class);
     }

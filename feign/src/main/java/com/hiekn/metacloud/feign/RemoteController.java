@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HiController {
+public class RemoteController {
 
     @Autowired
-    private ScheduleServiceHi scheduleServiceHi;
+    private FeignRemoteService scheduleServiceHi;
 
     @GetMapping("/hi")
     public RestResp sayHi(){
-        return scheduleServiceHi.sayHiFromClientOne();
+        return scheduleServiceHi.hiFeign();
     }
 
 }

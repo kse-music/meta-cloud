@@ -33,7 +33,7 @@ public class UserRestApi {
     @ApiOperation("hi")
     public RestResp hi(){
         RestResp<Map<String, Object>> hi = remoteService.hi();
-        hi.getData().put("demo2","i am demo2");
+        hi.getData().put("mvc","i am mvc");
         return hi;
     }
 
