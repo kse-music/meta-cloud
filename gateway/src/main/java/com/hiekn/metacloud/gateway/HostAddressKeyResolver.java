@@ -1,6 +1,7 @@
 package com.hiekn.metacloud.gateway;
 
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -13,9 +14,11 @@ import reactor.core.publisher.Mono;
  *          弊端：无法应对短时间的突发流量
  *      令牌桶算法：拿到令牌方可执行
  *
+ * 根据什么来进行限流，ip，接口，或者用户来进行限流
  * @author: DingHao
  * @date: 2019/5/8 23:59
  */
+@Component
 public class HostAddressKeyResolver implements KeyResolver {
 
     @Override

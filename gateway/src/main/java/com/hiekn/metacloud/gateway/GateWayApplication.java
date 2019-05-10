@@ -1,5 +1,7 @@
 package com.hiekn.metacloud.gateway;
 
+import cn.hiboot.mcn.core.exception.ErrorMsg;
+import cn.hiboot.mcn.core.model.result.RestResp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -9,7 +11,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
 
 @EnableHystrix
 @EnableDiscoveryClient
@@ -20,22 +21,6 @@ public class GateWayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GateWayApplication.class, args);
     }
-
-
-    @Bean
-    public HostAddressKeyResolver hostAddressKeyResolver() {
-        return new HostAddressKeyResolver();
-    }
-
-//    @Bean
-//    public UriKeyResolver uriKeyResolver() {
-//        return new UriKeyResolver();
-//    }
-//
-//    @Bean
-//    public KeyResolver userKeyResolver() {
-//        return exchange -> Mono.just(exchange.getRequest().getQueryParams().getFirst("user"));
-//    }
 
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
@@ -56,8 +41,8 @@ public class GateWayApplication {
     }
 
     @RequestMapping("/fallback")
-    public Mono<String> fallback() {
-        return Mono.just("fallback");
+    public RestResp fallback() {
+        return new RestResp<>(ErrorMsg.REMOTE_SERVICE_ERROR,ErrorMsg.getErrorMsg(ErrorMsg.REMOTE_SERVICE_ERROR));
     }
 
 }
