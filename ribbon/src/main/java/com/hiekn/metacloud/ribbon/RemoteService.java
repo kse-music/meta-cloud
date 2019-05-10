@@ -1,5 +1,6 @@
 package com.hiekn.metacloud.ribbon;
 
+import cn.hiboot.mcn.core.exception.ErrorMsg;
 import cn.hiboot.mcn.core.model.result.RestResp;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,6 @@ public class RemoteService {
     }
 
     public RestResp hiError() {
-        RestResp restResp = new RestResp("hi,sorry,error!");
-        restResp.setActionStatus(RestResp.ActionStatusMethod.FAIL.toString());
-        return restResp;
+        return new RestResp<>(ErrorMsg.REMOTE_SERVICE_ERROR,ErrorMsg.getErrorMsg(ErrorMsg.REMOTE_SERVICE_ERROR));
     }
 }

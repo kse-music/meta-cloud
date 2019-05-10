@@ -1,5 +1,6 @@
 package com.hiekn.metacloud.feign;
 
+import cn.hiboot.mcn.core.exception.ErrorMsg;
 import cn.hiboot.mcn.core.model.result.RestResp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -18,9 +19,7 @@ public interface ScheduleServiceHi {
 
         @Override
         public RestResp sayHiFromClientOne() {
-            RestResp restResp = new RestResp("hi,sorry,error!");
-            restResp.setActionStatus(RestResp.ActionStatusMethod.FAIL.toString());
-            return restResp;
+            return new RestResp<>(ErrorMsg.REMOTE_SERVICE_ERROR,ErrorMsg.getErrorMsg(ErrorMsg.REMOTE_SERVICE_ERROR));
         }
 
     }
