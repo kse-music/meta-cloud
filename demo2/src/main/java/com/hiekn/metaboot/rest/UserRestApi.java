@@ -37,6 +37,9 @@ public class UserRestApi {
     @Autowired
     private HttpServletRequest request;
 
+    @Value("${server.port}")
+    private Integer port;
+
     @GET
     @Path("hi")
     @ApiOperation("hi")
@@ -48,6 +51,7 @@ public class UserRestApi {
             data.put(s,request.getHeader(s));
         }
         data.put("remoteConfig",remoteConfig.getFoo());
+        data.put("demoPort",port.toString());
         return new RestResp<>(data);
     }
 
