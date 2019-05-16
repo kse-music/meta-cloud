@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class UserServiceImpl extends BaseServiceImpl<UserBean,String> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<UserBean,Integer> implements UserService {
 
     private static final Log logger = LogFactory.getLog(UserServiceImpl.class);
 

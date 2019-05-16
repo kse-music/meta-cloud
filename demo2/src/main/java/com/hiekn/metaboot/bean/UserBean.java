@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class UserBean extends BaseModel {
-    private String id;
+    private Integer id;
 
     @Pattern(regexp="^\\d{11}$",message = "请填写正确的手机号")
     private String mobile;
@@ -26,12 +26,12 @@ public class UserBean extends BaseModel {
 
     private String status;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id == null ? null : id;
     }
 
     public String getMobile() {
