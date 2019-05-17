@@ -35,7 +35,9 @@ public class UserRestApi {
         RestResp<Map<String, Object>> hi = remoteService.hi();
         hi.getData().put("mvc","i am mvc");
         RestResp<UserBean> add = remoteService.add("{password:123456,mobile:18362109799,nickname:nick}");
-        hi.getData().put("mvc",add.getData().getId());
+        if(add.getData() != null){
+            hi.getData().put("mvc",add.getData().getId());
+        }
         return hi;
     }
 
