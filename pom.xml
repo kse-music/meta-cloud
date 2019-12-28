@@ -12,15 +12,15 @@
 	<description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>eureka</module>
         <module>config</module>
-        <module>demo</module>
-        <module>demo2</module>
         <module>gateway</module>
         <module>ribbon</module>
         <module>feign</module>
         <module>monitor</module>
         <module>turbine</module>
+        <module>web1</module>
+        <module>web2</module>
+        <module>common</module>
     </modules>
 
     <parent>
@@ -41,8 +41,27 @@
             <groupId>cn.hiboot.mcn</groupId>
             <artifactId>mcn-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.hiekn</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 	<build>
