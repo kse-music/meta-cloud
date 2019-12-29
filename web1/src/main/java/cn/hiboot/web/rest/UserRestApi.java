@@ -2,9 +2,11 @@ package cn.hiboot.web.rest;
 
 import cn.hiboot.mcn.core.model.result.RestResp;
 import cn.hiboot.web.bean.UserBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("user")
@@ -12,9 +14,16 @@ import java.util.List;
 @Validated
 public class UserRestApi {
 
+    @Value("${foo}")
+    private String foo;
+
     @GetMapping("list")
     public RestResp<List<UserBean>> list() {
-        return new RestResp<>();
+        List<UserBean> rs = new ArrayList<>();
+        UserBean userBean = new UserBean();
+        userBean.setName(foo);
+        rs.add(userBean);
+        return new RestResp<>(rs);
     }
 
     @PostMapping("json")

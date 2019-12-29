@@ -4,14 +4,13 @@ import cn.hiboot.mcn.core.exception.ErrorMsg;
 import cn.hiboot.mcn.core.model.result.RestResp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Component
-@FeignClient(value = "demo2",fallback = FeignRemoteService.FeignRemoteServiceError.class)
+@FeignClient(value = "web",fallback = FeignRemoteService.FeignRemoteServiceError.class)
 public interface FeignRemoteService {
 
-    @RequestMapping(value = "/user/hi",method = RequestMethod.GET)
+    @GetMapping("/user/list")
     RestResp hiFeign();
 
     @Component
