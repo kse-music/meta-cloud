@@ -72,7 +72,7 @@ public class DingTalkNotifier extends AbstractStatusChangeNotifier {
         messageJson.put("msgtype", this.msgtype);
         messageJson.put(this.msgtype, params);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(messageJson, headers);
     }
 
