@@ -18,9 +18,9 @@ public class FeignApplication {
 	}
 
 	@Bean
-	public ServletRegistrationBean getServlet(){
+	public ServletRegistrationBean<HystrixMetricsStreamServlet> getServlet(){
 		HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
-		ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
+		ServletRegistrationBean<HystrixMetricsStreamServlet> registrationBean = new ServletRegistrationBean<>(streamServlet);
 		registrationBean.setLoadOnStartup(1);
 		registrationBean.addUrlMappings("/actuator/hystrix.stream");
 		registrationBean.setName("HystrixMetricsStreamServlet");
