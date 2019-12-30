@@ -59,6 +59,11 @@
                 <artifactId>common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.hiekn.metacloud</groupId>
+                <artifactId>feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

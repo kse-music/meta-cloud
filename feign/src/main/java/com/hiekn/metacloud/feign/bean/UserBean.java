@@ -1,9 +1,8 @@
-package cn.hiboot.web.bean;
+package com.hiekn.metacloud.feign.bean;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
 
 /**
  * describe about this class
@@ -17,7 +16,6 @@ public class UserBean {
 
     private String name;
 
-    @Max(200)
     private Integer age;
 
     private Integer port;

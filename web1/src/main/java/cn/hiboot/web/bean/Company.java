@@ -13,11 +13,10 @@ import javax.validation.constraints.Max;
  */
 @Setter
 @Getter
-public class UserBean {
+public class Company {
 
     private String name;
 
-    @Max(200)
-    private Integer age;
+    private String address;
 
 }

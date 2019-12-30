@@ -1,12 +1,12 @@
 package cn.hiboot.web.rest;
 
 import cn.hiboot.mcn.core.model.result.RestResp;
-import cn.hiboot.web.bean.UserBean;
-import org.springframework.beans.factory.annotation.Value;
+import com.hiekn.metacloud.feign.FeignRemoteService;
+import com.hiekn.metacloud.feign.bean.UserBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("user")
@@ -14,16 +14,12 @@ import java.util.List;
 @Validated
 public class UserRestApi {
 
-    @Value("${foo}")
-    private String foo;
+    @Autowired
+    private FeignRemoteService feignRemoteService;
 
     @GetMapping("list")
     public RestResp<List<UserBean>> list() {
-        List<UserBean> rs = new ArrayList<>();
-        UserBean userBean = new UserBean();
-        userBean.setName(foo);
-        rs.add(userBean);
-        return new RestResp<>(rs);
+        return feignRemoteService.list();
     }
 
     @PostMapping("json")
