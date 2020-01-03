@@ -35,6 +35,7 @@
     </properties>
 
 	<dependencies>
+
         <dependency>
             <groupId>cn.hiboot.mcn</groupId>
             <artifactId>mcn-spring-boot-starter</artifactId>

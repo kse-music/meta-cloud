@@ -12,7 +12,6 @@
     <groupId>com.hiekn.metacloud</groupId>
     <artifactId>feign</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

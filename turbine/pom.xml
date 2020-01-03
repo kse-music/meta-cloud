@@ -12,9 +12,15 @@
     <artifactId>turbine</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.hiekn</groupId>
             <artifactId>common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -25,8 +31,8 @@
                     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
                 </exclusion>
             </exclusions>
-
         </dependency>
+
     </dependencies>
 
 

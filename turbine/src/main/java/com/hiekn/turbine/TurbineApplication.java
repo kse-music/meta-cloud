@@ -13,7 +13,6 @@ import org.springframework.cloud.netflix.turbine.EnableTurbine;
  * @date: 2019/5/10 21:12
  */
 @EnableTurbine
-@EnableHystrix
 @EnableHystrixDashboard
 @SpringBootApplication
 public class TurbineApplication {
