@@ -1,9 +1,8 @@
 package com.hiekn.metacloud.gateway;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.stereotype.Component;
@@ -18,10 +17,9 @@ import java.util.List;
  * @author DingHao
  * @date 2019/5/9 22:16
  */
+@Slf4j
 @Component
 public class MyGatewayFilterFactory extends AbstractGatewayFilterFactory<MyGatewayFilterFactory.Config> {
-
-    private static final Logger logger = LoggerFactory.getLogger(MyGatewayFilterFactory.class);
 
     private static final String REQUEST_TIME_BEGIN = "requestTimeBegin";
     private static final String KEY = "withParams";
@@ -50,7 +48,7 @@ public class MyGatewayFilterFactory extends AbstractGatewayFilterFactory<MyGatew
                             if (config.isWithParams()) {
                                 sb.append(" params:").append(exchange.getRequest().getQueryParams());
                             }
-                            logger.info(sb.toString());
+                            log.info(sb.toString());
                         }
                     })
             );
@@ -58,17 +56,11 @@ public class MyGatewayFilterFactory extends AbstractGatewayFilterFactory<MyGatew
     }
 
 
+    @Setter
+    @Getter
     public static class Config {
 
         private boolean withParams;
-
-        public boolean isWithParams() {
-            return withParams;
-        }
-
-        public void setWithParams(boolean withParams) {
-            this.withParams = withParams;
-        }
 
     }
 }

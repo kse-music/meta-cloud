@@ -22,19 +22,10 @@ public class GateWayApplication {
 
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-        String httpUri = "http://localhost:8888";
+        String httpUri = "http://localhost:9801";
         return builder.routes()
-//                .route(p -> p
-//                        .path("/jersey/user/hi")
-//                        .filters(f -> f.addRequestHeader("Hello", "World").filter(new MyGatewayFilter()).stripPrefix(1))
-//                        .uri(httpUri))
-                .route(p -> p
-                        .host("*.hystrix.com")
-                        .filters(f -> f
-                                .hystrix(config -> config
-                                        .setName("mycmd")
-                                        .setFallbackUri("forward:/fallback")))
-                        .uri(httpUri))
+//                .route(p -> p.path("/jersey/user/hi").filters(f -> f.addRequestHeader("Hello", "World").filter(new MyGatewayFilter()).stripPrefix(1)).uri(httpUri))
+                .route(p -> p.host("*.hystrix.com").filters(f -> f .hystrix(config -> config.setName("mycmd").setFallbackUri("forward:/fallback"))).uri(httpUri))
                 .build();
     }
 
