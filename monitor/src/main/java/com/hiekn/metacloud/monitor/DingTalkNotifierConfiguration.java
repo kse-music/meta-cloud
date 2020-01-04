@@ -1,9 +1,6 @@
 package com.hiekn.metacloud.monitor;
 
-import de.codecentric.boot.admin.server.config.AdminServerNotifierAutoConfiguration;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
