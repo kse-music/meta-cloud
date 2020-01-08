@@ -24,7 +24,6 @@ public class UserRestApi {
 
     @PostMapping("json")
     public RestResp<UserBean> postJson(@Validated @RequestBody UserBean userBean) {
-        userBean.setAge(1111);
         return userApi.postJson(userBean);
     }
 
