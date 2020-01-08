@@ -7,7 +7,6 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 
 /**
  * describe about this class
@@ -24,12 +23,13 @@ public class WebApplication {
         SpringApplication.run(WebApplication.class, args);
     }
 
-    @Bean
+//    @Bean
     public ServletRegistrationBean<HystrixMetricsStreamServlet> getServlet(){
         HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
         ServletRegistrationBean<HystrixMetricsStreamServlet> registrationBean = new ServletRegistrationBean<>(streamServlet);
         registrationBean.setLoadOnStartup(1);
-        registrationBean.addUrlMappings("/actuator/hystrix.stream");
+        // /actuator/hystrix.stream 可以直接使用这个?
+        registrationBean.addUrlMappings("/hystrix.stream");
         registrationBean.setName("HystrixMetricsStreamServlet");
         return registrationBean;
     }
