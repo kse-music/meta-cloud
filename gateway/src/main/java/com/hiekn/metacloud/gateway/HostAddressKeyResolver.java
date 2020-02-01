@@ -15,8 +15,8 @@ import reactor.core.publisher.Mono;
  *      令牌桶算法：拿到令牌方可执行
  *
  * 根据什么来进行限流，ip，接口，或者用户来进行限流
- * @author: DingHao
- * @date: 2019/5/8 23:59
+ * @author DingHao
+ * @since 2019/5/8 23:59
  */
 @Component
 public class HostAddressKeyResolver implements KeyResolver {

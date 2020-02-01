@@ -11,8 +11,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * describe about this class
  *
- * @author: DingHao
- * @date: 2019/12/29 0:01
+ * @author DingHao
+ * @since 2019/12/29 0:01
  */
 @EnableHystrix
 @EnableHystrixDashboard

@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * describe about this class
  *
- * @author: DingHao
- * @date: 2020/1/8 15:37
+ * @author DingHao
+ * @since 2020/1/8 15:37
  */
 //@RequestMapping("user")//如果这样，得保证消费者中不存在url和feign client一样的路径
 @Validated
