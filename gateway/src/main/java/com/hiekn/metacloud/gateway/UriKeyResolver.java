@@ -6,8 +6,8 @@ import reactor.core.publisher.Mono;
 
 /**
  *
- * @author: DingHao
- * @date: 2019/5/9 0:00
+ * @author DingHao
+ * @since 2019/5/9 0:00
  */
 public class UriKeyResolver implements KeyResolver {
 

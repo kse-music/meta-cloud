@@ -8,8 +8,8 @@ import org.springframework.cloud.netflix.turbine.EnableTurbine;
 /**
  * describe about this class
  *
- * @author: DingHao
- * @date: 2019/5/10 21:12
+ * @author DingHao
+ * @since 2019/5/10 21:12
  */
 @EnableTurbine
 @EnableHystrixDashboard
