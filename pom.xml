@@ -5,43 +5,60 @@
 
 	<groupId>com.hiekn</groupId>
 	<artifactId>meta-cloud</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>${meta.cloud}</version>
 	<packaging>pom</packaging>
 
 	<name>meta-cloud</name>
 	<description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>eureka</module>
         <module>config</module>
-        <module>demo</module>
-        <module>demo2</module>
         <module>gateway</module>
-        <module>ribbon</module>
         <module>feign</module>
         <module>monitor</module>
+        <module>turbine</module>
+        <module>web1</module>
+        <module>web2</module>
+        <module>common</module>
     </modules>
 
     <parent>
-        <groupId>com.hiekn.boot</groupId>
-        <artifactId>mcn-projects</artifactId>
-        <version>1.5.18</version>
+        <artifactId>mcn-boot-parent</artifactId>
+        <groupId>cn.hiboot.mcn</groupId>
+        <version>2.3.0</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <meta.cloud>1.0</meta.cloud>
     </properties>
 
 	<dependencies>
 
         <dependency>
-            <groupId>com.hiekn.boot</groupId>
-            <artifactId>mcn-spring-boot-starter</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
-	</dependencies>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.hiekn</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hiekn.metacloud</groupId>
+                <artifactId>feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 	<build>
@@ -56,6 +73,33 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <pomElements>
+                        <distributionManagement>remove</distributionManagement>
+                    </pomElements>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 

@@ -1,21 +1,28 @@
 package com.hiekn.metacloud.monitor;
 
-import de.codecentric.boot.admin.event.ClientApplicationEvent;
-import de.codecentric.boot.admin.event.ClientApplicationStatusChangedEvent;
-import de.codecentric.boot.admin.notify.AbstractStatusChangeNotifier;
+import de.codecentric.boot.admin.server.domain.entities.Instance;
+import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
+import de.codecentric.boot.admin.server.domain.events.InstanceEvent;
+import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent;
+import de.codecentric.boot.admin.server.notify.AbstractStatusChangeNotifier;
+import org.springframework.context.expression.MapAccessor;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DingTalkNotifier extends AbstractStatusChangeNotifier {
+
+    private static final String DEFAULT_MESSAGE = "*#{instance.registration.name}* (#{instance.id}) is *#{event.statusInfo.status}**";
 
     private final SpelExpressionParser parser = new SpelExpressionParser();
 
@@ -26,29 +33,34 @@ public class DingTalkNotifier extends AbstractStatusChangeNotifier {
     private String title = "服务通知";
     private Expression message;
 
-    public DingTalkNotifier() {
-        this.message = this.parser.parseExpression("**#{application.name}** 已经从 #{from.status} 变成 **#{to.status}**", ParserContext.TEMPLATE_EXPRESSION);
+    public DingTalkNotifier(InstanceRepository repository) {
+        super(repository);
+        this.message = this.parser.parseExpression(DEFAULT_MESSAGE, ParserContext.TEMPLATE_EXPRESSION);
     }
 
     @Override
-    protected void doNotify(ClientApplicationEvent event) {
-        if(event instanceof ClientApplicationStatusChangedEvent){//只关心状态变化
-            ClientApplicationStatusChangedEvent changedEvent = (ClientApplicationStatusChangedEvent) event;
+    protected Mono<Void> doNotify(InstanceEvent event, Instance instance) {
+        return Mono.fromRunnable(() -> restTemplate.postForEntity(webhookToken, createMessage(event, instance),Void.class));
+    }
+
+    private HttpEntity<Map<String, Object>> createMessage(InstanceEvent event,Instance instance) {
+        String msg = "";
+        if(event instanceof InstanceStatusChangedEvent){//只关心状态变化
+            InstanceStatusChangedEvent changedEvent = (InstanceStatusChangedEvent) event;
             StringBuilder sb = new StringBuilder("\n >**");
-            sb.append(changedEvent.getApplication().getName()).append("** 服务已经");
-            if(changedEvent.getTo().isOffline()){
-                sb.append("跪了,请相关人员及时去救火 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
-            }else if(changedEvent.getTo().isUp()){
+            sb.append(instance.getRegistration().getName()).append("** 服务已经");
+            if(changedEvent.getStatusInfo().isOffline()){
+                sb.append("Offline,请相关人员及时去救火 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
+            }else if(changedEvent.getStatusInfo().isDown()){
+                sb.append("Down,请相关人员及时去救火 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
+            }else if(changedEvent.getStatusInfo().isUp()){
                 sb.append("又重新复活了 \n > ![screenshot](http://i01.lw.aliimg.com/media/lALPBbCc1ZhJGIvNAkzNBLA_1200_588.png)");
             }
             if(this.atMobiles != null){
                 sb.append(this.getAtMobilesString(this.atMobiles));
             }
-            this.restTemplate.postForEntity(this.webhookToken, this.createMessage(sb.toString()), Void.class);
+            msg = sb.toString();
         }
-    }
-
-    private HttpEntity<Map<String, Object>> createMessage(String msg) {
         Map<String, Object> messageJson = new HashMap<>();
         Map<String, String> params = new HashMap<>();
         Map<String, Object> at = new HashMap<>();
@@ -60,7 +72,7 @@ public class DingTalkNotifier extends AbstractStatusChangeNotifier {
         messageJson.put("msgtype", this.msgtype);
         messageJson.put(this.msgtype, params);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(messageJson, headers);
     }
 
@@ -73,8 +85,15 @@ public class DingTalkNotifier extends AbstractStatusChangeNotifier {
         return atMobiles.toString();
     }
 
-    private String getMessage(ClientApplicationEvent event) {
-        return this.atMobiles == null ? this.message.getValue(event, String.class) : this.message.getValue(event, String.class) + "\n >" + this.getAtMobilesString(this.atMobiles);
+    private String getMessage(InstanceEvent event, Instance instance) {
+        Map<String, Object> root = new HashMap<>();
+        root.put("event", event);
+        root.put("instance", instance);
+        root.put("lastStatus", getLastStatus(event.getInstance()));
+        StandardEvaluationContext context = new StandardEvaluationContext(root);
+        context.addPropertyAccessor(new MapAccessor());
+        return message.getValue(context, String.class);
+//        return this.atMobiles == null ? this.message.getValue(event, String.class) : this.message.getValue(event, String.class) + "\n >" + this.getAtMobilesString(this.atMobiles);
     }
 
     public void setRestTemplate(RestTemplate restTemplate) {
