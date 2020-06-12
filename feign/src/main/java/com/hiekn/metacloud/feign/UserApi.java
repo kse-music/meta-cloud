@@ -17,8 +17,9 @@ import java.util.List;
  * @since 2020/1/8 15:37
  */
 //@RequestMapping("user")//如果这样，得保证消费者中不存在url和feign client一样的路径
+//url的使用可以支持哪些不需要注册服务仅仅使用feign的项目
 @Validated
-@FeignClient(value = "reactive-web",path = "/user/")
+@FeignClient(value = "${reactive.web:reactive-web}",url = "${reactive.web.url:}",path = "/user")
 public interface UserApi {
 
     @GetMapping("list")
