@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * description about this class
  *
  * @author DingHao
- * @date 2019/5/9 22:16
+ * @since 2019/5/9 22:16
  */
 @Slf4j
 @Component
@@ -26,7 +27,7 @@ public class MyGatewayFilterFactory extends AbstractGatewayFilterFactory<MyGatew
 
     @Override
     public List<String> shortcutFieldOrder() {
-        return Arrays.asList(KEY);
+        return Collections.singletonList(KEY);
     }
 
     public MyGatewayFilterFactory() {
