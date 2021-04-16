@@ -4,7 +4,8 @@ import cn.hiboot.mcn.core.model.result.RestResp;
 import com.hiekn.metacloud.feign.UserApi;
 import com.hiekn.metacloud.feign.bean.UserBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class UserRestApi implements UserApi {
     @Value("${server.port}")
     private Integer port;
 
-    @Value("${foo}")
+    @Value("${spring.datasource.password}")
     private String foo;
 
     @Override
