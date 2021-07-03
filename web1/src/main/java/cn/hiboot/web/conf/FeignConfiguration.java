@@ -41,19 +41,4 @@ public class FeignConfiguration {
                         .build());
     }
 
-    //    @Bean
-    //    Request.Options requestOptions(ConfigurableEnvironment env){
-    //        int ribbonReadTimeout = env.getProperty("ribbon.ReadTimeout", int.class, 6000);
-    //        int ribbonConnectionTimeout = env.getProperty("ribbon.ConnectTimeout", int.class, 3000);
-    //        return new Request.Options(ribbonConnectionTimeout, ribbonReadTimeout);
-    //    }
-    //    @Bean
-    //    @LoadBalanced
-    //        RestTemplate restTemplate() {
-    //        HttpComponentsClientHttpRequestFactory httpRequestFactory =  new HttpComponentsClientHttpRequestFactory();
-    //        httpRequestFactory.setReadTimeout(60000);
-    //        httpRequestFactory.setConnectTimeout(60000);
-    //        return new RestTemplate(httpRequestFactory);
-    //    }
-
 }
