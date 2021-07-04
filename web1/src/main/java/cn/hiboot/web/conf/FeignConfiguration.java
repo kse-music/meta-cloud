@@ -2,17 +2,13 @@ package cn.hiboot.web.conf;
 
 import feign.FeignException;
 import feign.Logger;
+import feign.Request;
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
-import io.github.resilience4j.timelimiter.TimeLimiterConfig;
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
-import org.springframework.cloud.client.circuitbreaker.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Configuration(proxyBeanMethods = false)
 public class FeignConfiguration {
@@ -33,12 +29,8 @@ public class FeignConfiguration {
     }
 
     @Bean
-    public Customizer<Resilience4JCircuitBreakerFactory> defaultCustomizer() {
-        return factory -> factory.configureDefault(
-                id -> new Resilience4JConfigBuilder(id)
-                        .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build())
-                        .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-                        .build());
+    public Request.Options options(){
+        return new Request.Options(10, TimeUnit.SECONDS, 60, TimeUnit.SECONDS, true);
     }
 
 }
