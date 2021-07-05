@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RequestMapping("user")
 @RestController
@@ -27,6 +28,11 @@ public class UserRestApi implements UserApi {
         userBean.setName(foo);
         userBean.setPort(port);
         rs.add(userBean);
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return new RestResp<>(rs);
     }
 
