@@ -17,7 +17,7 @@ public class UserRestApi implements UserApi {
     @Value("${server.port}")
     private Integer port;
 
-    @Value("${spring.datasource.password}")
+    @Value("${spring.application.name}")
     private String foo;
 
     @Override
