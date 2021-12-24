@@ -1,6 +1,7 @@
 package com.hiekn.metacloud.gateway;
 
 import cn.hiboot.mcn.core.exception.ErrorMsg;
+import cn.hiboot.mcn.core.exception.ExceptionKeys;
 import cn.hiboot.mcn.core.model.result.RestResp;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.timelimiter.TimeLimiterConfig;
@@ -37,7 +38,7 @@ public class GateWayConfiguration {
 
         @RequestMapping("/fallback")
         public RestResp<?> fallback() {
-            return new RestResp<>(ErrorMsg.REMOTE_SERVICE_ERROR,ErrorMsg.getErrorMsg(ErrorMsg.REMOTE_SERVICE_ERROR));
+            return new RestResp<>(ExceptionKeys.REMOTE_SERVICE_ERROR,ErrorMsg.getErrorMsg(ExceptionKeys.REMOTE_SERVICE_ERROR));
         }
 
     }
