@@ -1,8 +1,10 @@
 package com.hiekn.metacloud.gateway.filter;
 
+import com.hiekn.metacloud.gateway.util.ExceptionWriter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -25,10 +27,9 @@ public class MyGlobalFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = exchange.getRequest().getQueryParams().getFirst("token");
-        if (token == null || token.isEmpty()) {
-//            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-//            return exchange.getResponse().setComplete();
-            System.out.println("无token");
+        if (ObjectUtils.isEmpty(token)) {
+            return ExceptionWriter.failed("无token",exchange.getResponse());
+//            return  exchange.getResponse().setComplete();
         }
         return chain.filter(exchange);
     }
