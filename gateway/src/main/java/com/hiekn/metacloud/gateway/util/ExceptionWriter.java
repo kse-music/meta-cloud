@@ -26,7 +26,7 @@ public abstract class ExceptionWriter {
         return write(new RestResp<>(data),response);
     }
 
-    public static Mono<Void> failed(Exception e, ServerHttpResponse response) {
+    public static Mono<Void> failed(Throwable e, ServerHttpResponse response) {
         return write(RestResp.error(e.getMessage()),response);
     }
 

@@ -11,8 +11,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ServerWebExchange;
 
 import java.time.Duration;
+
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.CIRCUITBREAKER_EXECUTION_EXCEPTION_ATTR;
 
 /**
  * GateWayConfiguration
@@ -33,14 +36,17 @@ public class GateWayConfiguration {
     }
 
     @RestController
-    private static class FallbackController{
+    static class FallbackController{
 
         @RequestMapping("/fallback")
-        public RestResp<?> fallback() {
+        public RestResp<?> fallback(ServerWebExchange exchange) throws Exception {
+            Object o = exchange.getAttributes().get(CIRCUITBREAKER_EXECUTION_EXCEPTION_ATTR);
+            if(o != null){
+                return RestResp.error(((Throwable) o).getMessage());
+            }
             return RestResp.error(ExceptionKeys.REMOTE_SERVICE_ERROR);
         }
 
     }
-
 
 }
