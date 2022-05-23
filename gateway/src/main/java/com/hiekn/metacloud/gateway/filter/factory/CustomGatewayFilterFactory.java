@@ -1,26 +1,23 @@
-package com.hiekn.metacloud.gateway;
+package com.hiekn.metacloud.gateway.filter.factory;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * description about this class
+ * CustomGatewayFilterFactory
+ *
+ * 如果类名不是以GatewayFilterFactory结尾 需要重新接口name()
  *
  * @author DingHao
  * @since 2019/5/9 22:16
  */
-@Slf4j
 @Component
-public class MyGatewayFilterFactory extends AbstractGatewayFilterFactory<MyGatewayFilterFactory.Config> {
+public class CustomGatewayFilterFactory extends AbstractGatewayFilterFactory<CustomGatewayFilterFactory.Config> {
 
     private static final String REQUEST_TIME_BEGIN = "requestTimeBegin";
     private static final String KEY = "withParams";
@@ -30,7 +27,7 @@ public class MyGatewayFilterFactory extends AbstractGatewayFilterFactory<MyGatew
         return Collections.singletonList(KEY);
     }
 
-    public MyGatewayFilterFactory() {
+    public CustomGatewayFilterFactory() {
         super(Config.class);
     }
 
@@ -49,19 +46,24 @@ public class MyGatewayFilterFactory extends AbstractGatewayFilterFactory<MyGatew
                             if (config.isWithParams()) {
                                 sb.append(" params:").append(exchange.getRequest().getQueryParams());
                             }
-                            log.info(sb.toString());
+                            System.out.println(sb);
                         }
                     })
             );
         };
     }
 
-
-    @Setter
-    @Getter
     public static class Config {
 
         private boolean withParams;
 
+        public boolean isWithParams() {
+            return withParams;
+        }
+
+        public void setWithParams(boolean withParams) {
+            this.withParams = withParams;
+        }
     }
+
 }

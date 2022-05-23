@@ -1,4 +1,4 @@
-package com.hiekn.metacloud.gateway;
+package com.hiekn.metacloud.gateway.filter.ratelimit;
 
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.stereotype.Component;

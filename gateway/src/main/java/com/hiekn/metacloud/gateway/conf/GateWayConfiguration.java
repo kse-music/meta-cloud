@@ -1,4 +1,4 @@
-package com.hiekn.metacloud.gateway;
+package com.hiekn.metacloud.gateway.conf;
 
 import cn.hiboot.mcn.core.exception.ExceptionKeys;
 import cn.hiboot.mcn.core.model.result.RestResp;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Duration;
 
 /**
- * describe about this class
+ * GateWayConfiguration
  *
  * @author DingHao
  * @since 2021/7/5 14:45
