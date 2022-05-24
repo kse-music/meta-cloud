@@ -39,10 +39,10 @@ public class GateWayConfiguration {
     static class FallbackController{
 
         @RequestMapping("/fallback")
-        public RestResp<?> fallback(ServerWebExchange exchange) throws Exception {
-            Object o = exchange.getAttributes().get(CIRCUITBREAKER_EXECUTION_EXCEPTION_ATTR);
+        public RestResp<?> fallback(ServerWebExchange exchange) {
+            Throwable o = exchange.getAttribute(CIRCUITBREAKER_EXECUTION_EXCEPTION_ATTR);
             if(o != null){
-                return RestResp.error(((Throwable) o).getMessage());
+                return RestResp.error(o.getMessage());
             }
             return RestResp.error(ExceptionKeys.REMOTE_SERVICE_ERROR);
         }
