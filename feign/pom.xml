@@ -11,7 +11,9 @@
 
     <groupId>com.hiekn.metacloud</groupId>
     <artifactId>feign</artifactId>
-
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

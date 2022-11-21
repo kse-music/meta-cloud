@@ -18,3 +18,7 @@
 - [Elasticsearch基本概念](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
 - [MongoDB教程](https://www.w3cschool.cn/mongodb/)
 - [Redis教程](https://www.w3cschool.cn/redis/)
+
+```bash
+mvn clean deploy scm:checkin -Dmessage="build(tag): release tag v${revision}" scm:tag -Dtag=v${revision}
+```
