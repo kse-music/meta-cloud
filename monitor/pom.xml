@@ -11,9 +11,7 @@
 
     <groupId>com.hiekn.metacloud</groupId>
     <artifactId>monitor</artifactId>
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.hiekn</groupId>
