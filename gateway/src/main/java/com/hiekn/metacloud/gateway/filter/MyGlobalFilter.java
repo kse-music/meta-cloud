@@ -10,19 +10,15 @@ import reactor.core.publisher.Mono;
 
 /**
  *
- * MyGlobalFilter
- *
  * 全局过滤器，不需要配置路由，系统初始化作用到所有路由上相当于handler内部实现的过滤器与GatewayFilter类似
- *
- * 需要指定实现Ordered接口(不能使用注解@Order)才能与路由中定义的filter排序
- *
- * 执行的时候会FilteringWebHandler#handle会把全局过滤addAll路由中定义的过滤器 再排序
+ * 需要指定实现Ordered接口(不能使用注解@Order,因为被包装成GatewayFilterAdapter)才能与路由中定义的filter排序
+ * 执行的时候会{@link org.springframework.cloud.gateway.handler.FilteringWebHandler#handle}会把全局过滤addAll路由中定义的过滤器 再排序
  *
  * @author DingHao
  * @since 2019/5/8 23:59
  */
 @Component
-public class MyGlobalFilter implements GlobalFilter {
+public class MyGlobalFilter implements GlobalFilter{
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

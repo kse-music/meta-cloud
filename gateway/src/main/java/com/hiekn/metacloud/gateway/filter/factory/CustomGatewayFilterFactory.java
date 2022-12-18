@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * CustomGatewayFilterFactory
- *
  * 如果类名不是以GatewayFilterFactory结尾 需要重新接口name()
  *
  * @author DingHao
