@@ -1,9 +1,11 @@
-package com.hiekn.metacloud.monitor;
+package com.hiekn.metacloud.monitor.ding;
 
 import de.codecentric.boot.admin.server.domain.entities.Instance;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import de.codecentric.boot.admin.server.domain.events.InstanceEvent;
 import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,25 +15,21 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnProperty(prefix = "spring.boot.admin.notify.dingtalk", name = "webhook-url")
 public class DingTalkNotifier extends de.codecentric.boot.admin.server.notify.DingTalkNotifier {
 
-    private String atMobiles;
+    private final DingTalkNotifierProperties dingTalkNotifierProperties;
 
-    public DingTalkNotifier(InstanceRepository repository) {
+    public DingTalkNotifier(InstanceRepository repository,DingTalkNotifierProperties dingTalkNotifierProperties) {
         super(repository,new RestTemplate());
-    }
-
-    public String getAtMobiles() {
-        return atMobiles;
-    }
-
-    public void setAtMobiles(String atMobiles) {
-        this.atMobiles = atMobiles;
+        this.dingTalkNotifierProperties = dingTalkNotifierProperties;
     }
 
     @Override
     protected Object createMessage(InstanceEvent event, Instance instance) {
         String msg = "";
+        String atMobiles = dingTalkNotifierProperties.getAtMobiles();
         if(event instanceof InstanceStatusChangedEvent){//只关心状态变化
             InstanceStatusChangedEvent changedEvent = (InstanceStatusChangedEvent) event;
             StringBuilder sb = new StringBuilder("\n >**");
@@ -43,9 +41,7 @@ public class DingTalkNotifier extends de.codecentric.boot.admin.server.notify.Di
             }else if(changedEvent.getStatusInfo().isUp()){
                 sb.append("又重新复活了 \n > ![screenshot](http://cdn.hiboot.cn/cb967d6e0d634fc18d684e87153791e8.jpg)");
             }
-            if(this.atMobiles != null){
-                sb.append(this.getAtMobilesString(this.atMobiles));
-            }
+            sb.append(getAtMobilesString(atMobiles));
             msg = sb.toString();
         }
         Map<String, Object> messageJson = new HashMap<>();
@@ -54,7 +50,7 @@ public class DingTalkNotifier extends de.codecentric.boot.admin.server.notify.Di
         params.put("text", msg);
         String title = "服务通知";
         params.put("title", title);
-        at.put("atMobiles", StringUtils.commaDelimitedListToStringArray(this.atMobiles));
+        at.put("atMobiles", StringUtils.commaDelimitedListToStringArray(atMobiles));
         at.put("isAtAll",false);
         messageJson.put("at", at);
         String msgtype = "markdown";
@@ -65,14 +61,16 @@ public class DingTalkNotifier extends de.codecentric.boot.admin.server.notify.Di
         return new HttpEntity<>(messageJson, headers);
     }
 
-    private String getAtMobilesString(String s) {
-        StringBuilder atMobiles = new StringBuilder();
-        String[] mobiles = s.split(",");
-        for (String mobile : mobiles) {
-            atMobiles.append("@").append(mobile);
+    private String getAtMobilesString(String atMobiles) {
+        if(atMobiles == null){
+            return "";
         }
-        return atMobiles.toString();
+        StringBuilder sb = new StringBuilder();
+        String[] mobiles = atMobiles.split(",");
+        for (String mobile : mobiles) {
+            sb.append("@").append(mobile);
+        }
+        return sb.toString();
     }
-
 
 }
