@@ -1,9 +1,9 @@
 package com.hiekn.metacloud.feign.bean;
 
+import jakarta.validation.constraints.Max;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
 
 
 /**

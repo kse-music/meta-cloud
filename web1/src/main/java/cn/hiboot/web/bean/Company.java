@@ -3,8 +3,6 @@ package cn.hiboot.web.bean;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Max;
-
 /**
  * describe about this class
  *

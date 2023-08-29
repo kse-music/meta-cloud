@@ -24,7 +24,7 @@
     <parent>
         <artifactId>mcn-boot-starter-parent</artifactId>
         <groupId>cn.hiboot.mcn</groupId>
-        <version>2.7.15</version>
+        <version>3.0.0</version>
     </parent>
 
     <properties>
