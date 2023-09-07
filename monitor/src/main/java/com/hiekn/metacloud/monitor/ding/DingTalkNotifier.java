@@ -30,8 +30,7 @@ public class DingTalkNotifier extends de.codecentric.boot.admin.server.notify.Di
     protected Object createMessage(InstanceEvent event, Instance instance) {
         String msg = "";
         String atMobiles = dingTalkNotifierProperties.getAtMobiles();
-        if(event instanceof InstanceStatusChangedEvent){//只关心状态变化
-            InstanceStatusChangedEvent changedEvent = (InstanceStatusChangedEvent) event;
+        if(event instanceof InstanceStatusChangedEvent changedEvent){//只关心状态变化
             StringBuilder sb = new StringBuilder("\n >**");
             sb.append(instance.getRegistration().getName()).append("** 服务已经");
             if(changedEvent.getStatusInfo().isOffline()){
