@@ -4,8 +4,6 @@ import de.codecentric.boot.admin.server.domain.entities.Instance;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import de.codecentric.boot.admin.server.domain.events.InstanceEvent;
 import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,21 +13,21 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(prefix = "spring.boot.admin.notify.dingtalk", name = "webhook-url")
 public class DingTalkNotifier extends de.codecentric.boot.admin.server.notify.DingTalkNotifier {
 
-    private final DingTalkNotifierProperties dingTalkNotifierProperties;
+    private String atMobiles;
 
-    public DingTalkNotifier(InstanceRepository repository,DingTalkNotifierProperties dingTalkNotifierProperties) {
-        super(repository,new RestTemplate());
-        this.dingTalkNotifierProperties = dingTalkNotifierProperties;
+    public DingTalkNotifier(InstanceRepository repository, RestTemplate restTemplate) {
+        super(repository, restTemplate);
+    }
+
+    public void setAtMobiles(String atMobiles) {
+        this.atMobiles = atMobiles;
     }
 
     @Override
     protected Object createMessage(InstanceEvent event, Instance instance) {
         String msg = "";
-        String atMobiles = dingTalkNotifierProperties.getAtMobiles();
         if(event instanceof InstanceStatusChangedEvent changedEvent){//只关心状态变化
             StringBuilder sb = new StringBuilder("\n >**");
             sb.append(instance.getRegistration().getName()).append("** 服务已经");
