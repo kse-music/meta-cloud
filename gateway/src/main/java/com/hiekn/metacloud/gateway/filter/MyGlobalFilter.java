@@ -1,6 +1,6 @@
 package com.hiekn.metacloud.gateway.filter;
 
-import cn.hiboot.mcn.autoconfigure.web.reactor.ServerHttpResponseUtils;
+import cn.hiboot.mcn.autoconfigure.web.reactor.WebUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class MyGlobalFilter implements GlobalFilter{
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = exchange.getRequest().getQueryParams().getFirst("token");
         if (ObjectUtils.isEmpty(token)) {
-            return ServerHttpResponseUtils.failed("无token",exchange.getResponse());
+            return WebUtils.failed("无token",exchange.getResponse());
 //            return  exchange.getResponse().setComplete();
         }
         return chain.filter(exchange);
